@@ -118,7 +118,7 @@
 
 
 
-      var fname;
+      
       
       function gotData(data){
            sc=data.val();
@@ -126,7 +126,7 @@
           
           for(var i=0;i<keys.length;i++){
               var k=keys[i];
-              fname=sc[k].FoodName;
+             var fname=sc[k].FoodName;
               var description = sc[k].Description;
               var price=sc[k].FoodPrice;
               var image=sc[k].Image;
@@ -160,7 +160,7 @@
                     <p>Total cost        =130     </p>
                   </div>
                   <div class="modal-footer">
-               <button class="b1" onclick=addCart("`+price+`","quantity`+i+`")>Confrim</button>
+               <button class="b1" onclick=addCart("`+k+`","quantity`+i+`")>Confrim</button>
                   
                   </div>
                 </div>
@@ -170,14 +170,15 @@
           }
           
       }
-      function addCart(price,id){
-       
-        var quantity=document.querySelector('#'+id).value
 
-        let newformMessage=formMessage4.push();
+      function addCart(k,id){
+       var Fname=sc[k].FoodName;
+       var Fprice=sc[k].FoodPrice;
+        var quantity=document.querySelector('#'+id).value
+       let newformMessage=formMessage4.push();
         newformMessage.set({
-         name:fname,
-          price:price,
+         name:Fname,
+          price:Fprice,
           Quantity:quantity,
           userid:key,
           status:"Active"

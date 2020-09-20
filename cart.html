@@ -103,7 +103,7 @@
   </div>
   <div class="col-25" >
     <div class="container"  >
-          <h4 id="Cart" >Cart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantity<span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b id="count"></b></span></h4>
+          <h4 id="Cart" >Cart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantity<span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b id="tcount"></b></span></h4>
       <hr>
       <p>Total <span class="price" style="color:black"><b id="total"></b></span></p>
   </div>
@@ -168,6 +168,7 @@
   }
 
   function gotData(data){
+   var  count=0;
     var sc4=data.val()
     var keys=Object.keys(sc4)
    // $('#Cart').empty()
@@ -182,7 +183,7 @@
      
 
       if(key==Key){
-
+        count++;
       
       document.getElementById("Cart").innerHTML+=
         
@@ -190,9 +191,10 @@
       <i class ="fa fa-trash" style="curser:pointer; color:red;" onclick=deleteData("`+k+`")></i>`
       sum=sum+parseInt(Price)
     }
+    document.getElementById("tcount").innerHTML=count;
     }
-    document.getElementById("count").innerHTML=keys.length
-    document.getElementById("total").innerHTML=sum
+    document.getElementById("tcount").innerHTML=count;
+   document.getElementById("total").innerHTML=sum
 
   }
   function errData(){
