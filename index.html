@@ -1,0 +1,225 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>1947 Restorent</title>
+	<link href="project2.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/png" href= https://i.pinimg.com/736x/11/d1/84/11d18400bfc45558d548749aee9f15c9.jpg>
+
+
+</head>
+<body>
+	<header>
+		<div class="head">
+			<h2 style="color:black; font-family: cursive;">1947-Delight in every bite</h2>
+		</div>
+		<nav>
+        <ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn" style="color: black">Menu</a>
+            <i class="fa fa-caret-down"></i>
+            <div class="dropdown-content">
+              <a href="#South indian foods">South indian foods</a>
+              <a href="#Meals">Meals</a>
+              <a href="#Best Sellers">Best Sellers</a>
+               <a href="#Cocktail">Cocktail</a>
+            </div>
+          </li>
+
+          <li><a href="#china" class="active">Services</a></li>
+          <li><a href="cart.html" class="active">View cart</a></li>
+          <li><a href="#" class="active">Blog</a></li>
+          <li><a href="#" class="active">About Us</a></li>
+          <li style="display: none; " id="login"><a href="login.html" class="active">Login/Signup</a></li>
+          <li style="display: none; " id="user"><a href="#" class="active" id="username" onclick="logout()"></a></li>
+
+         
+        </ul>
+      </nav>
+		</header>
+		<img class="w3-image" src="wooden-planks-with-blurred-restaurant-background_1253-56.jpg" alt="1947-Delight in every bites" width="1600" height="800">
+      <div class="w3-display-bottomleft w3-padding-large w3-opacity">
+        <h1 class="w3-xxlarge">Expect the best</h1>
+      </div>
+     <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px;" id="food">
+  
+  </body>
+  
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase.js"></script>
+
+  <script type="text/javascript">
+    var key=window.localStorage.getItem('loggedinuser')
+    var firebaseConfig = {
+      apiKey: "AIzaSyAzjBcBSPRLUdfR6MmaqapEvljCxebDUCY",
+      authDomain: "restorent-41cf6.firebaseapp.com",
+      databaseURL: "https://restorent-41cf6.firebaseio.com",
+      projectId: "restorent-41cf6",
+      storageBucket: "restorent-41cf6.appspot.com",
+      messagingSenderId: "656046326453",
+      appId: "1:656046326453:web:ee655e3415eacf44f934fc"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+      let formMessage = firebase.database().ref('FoodData');
+      let formMessage2 = firebase.database().ref('category');
+      let formMessage3=firebase.database().ref('user');
+      let formMessage4=firebase.database().ref('cart');
+      formMessage3.on('value',showUser);
+
+    
+      
+
+      function showUser(data){
+      
+       var sc3=data.val();
+       if(sc3==null){
+        localStorage.clear();
+       }
+      
+        if(key!=null){
+          document.getElementById("username").innerHTML=sc3[key].name;
+          document.getElementById("user").style.display="block";
+          document.getElementById("login").style.display="none"
+        }
+        else{
+          document.getElementById("login").style.display="block"
+        }
+
+      }
+      function logout(){
+        var answer=window.confirm("Are you sure, you want to logout ?")
+        if(answer){
+        window.localStorage.removeItem('loggedinuser')
+        window.location="index.html"
+      }
+      }
+      formMessage2.on('value',showCategory,errData);
+      var sc,sc2;
+
+      function showCategory(data){
+        sc2=data.val();
+        var keys=Object.keys(sc2)
+
+        for(var i=0;i<keys.length;i++){
+          var k=keys[i];
+          var category=sc2[k].categoryname;
+          document.getElementById("food").innerHTML+=
+
+          `<h1 class="w3-xxlarge  abc" >`+category+`</h1>
+          <div class="w3-row-padding w3-padding-16 w3-center" id="`+category+`">
+          </div>`
+          }
+          formMessage.on('value',gotData,errData);
+      }
+
+
+
+      var fname;
+      
+      function gotData(data){
+           sc=data.val();
+          var keys =Object.keys(sc)
+          
+          for(var i=0;i<keys.length;i++){
+              var k=keys[i];
+              fname=sc[k].FoodName;
+              var description = sc[k].Description;
+              var price=sc[k].FoodPrice;
+              var image=sc[k].Image;
+              var category=sc[k].FoodCat;
+              
+              document.getElementById(category).innerHTML+=
+          
+              `<div class="w3-quarter">
+              <a onclick=opennewpage("`+k+`")>
+              <img src="`+image+`" alt="Masala dosa" style="width:100%">
+          </a>
+              <h3>`+fname+`</h3>
+              <p id="desc`+i+`" style="display:none">`+description+`</p>
+              <button id="myBtn" class="b11" onclick=showmodel("myModal`+i+`")>Add to cart</button>
+
+              <div id="myModal`+i+`" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <span class="close" onclick=hidemodel("myModal`+i+`")>&times;</span>
+                    <h2>Your Cart</h2>
+                  </div>
+                  <div class="modal-body">
+                    <h3 style="color:black">`+fname+`</h3>
+                    <p>Cost              = `+price+`Rs/- </p>
+                    <p>GST               = 10%    </p>
+                    <p>Delivery charges  = 35Rs/- </p>
+                    <label for="Quantity" style="color: orange">Quantity     =</label>
+                    <input type="number" id="quantity`+i+`" name="Quantity">
+                    <p>Total cost        =130     </p>
+                  </div>
+                  <div class="modal-footer">
+               <button class="b1" onclick=addCart("`+price+`","quantity`+i+`")>Confrim</button>
+                  
+                  </div>
+                </div>
+            </div>
+               <button onclick=showdesc("desc`+i+`") class="b11" >View detail</button>
+            </div>`
+          }
+          
+      }
+      function addCart(price,id){
+       
+        var quantity=document.querySelector('#'+id).value
+
+        let newformMessage=formMessage4.push();
+        newformMessage.set({
+         name:fname,
+          price:price,
+          Quantity:quantity,
+          userid:key,
+          status:"Active"
+          });
+        alert("data added in cart")
+        window.location="cart.html"
+      
+     
+      }
+      function opennewpage(key){
+        if(key!=null){
+        window.localStorage.setItem('foodpage',key)
+        window.location="product.html"
+      }
+      else{
+        window.location="login.html"
+      }
+      }
+
+      
+      function errData(){
+
+      }
+     function showmodel(id){
+      if(key!=null){
+        document.getElementById(id).style.display="block"
+      }
+      else{
+        window.location="login.html"
+      }
+      }
+      function hidemodel(id){
+        document.getElementById(id).style.display="none"
+      }
+       function showdesc(des){
+          document.getElementById(des).style.display="block"
+        }
+        
+  </script>
+    
+
+	</html>
+
+				
+				
+				

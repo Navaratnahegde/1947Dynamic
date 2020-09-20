@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="project2.css" rel="stylesheet">
+<style>
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+</style>
+<body>
+
+      <header>
+    <div class="head">
+      <h2 style="color:black; font-family: cursive;">1947-Delight in every bite</h2>
+    </div>
+    <nav>
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn" style="color: black">Menu</a>
+            <i class="fa fa-caret-down"></i>
+            <div class="dropdown-content">
+              <a href="#South indian foods">South indian foods</a>
+              <a href="#Meals">Meals</a>
+              <a href="#Best Sellers">Best Sellers</a>
+               <a href="#Cocktail">Cocktail</a>
+            </div>
+          </li>
+
+          <li><a href="#china" class="active">Services</a></li>
+          <li><a href="#" class="active">Blog</a></li>
+          <li><a href="#" class="active">About Us</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+
+  <!-- About Section -->
+  <div class="w3-row w3-padding-64" id="about">
+    
+    </div>
+  </div>
+</body>
+  <script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase.js"></script>
+
+  <script type="text/javascript">
+    var key=window.localStorage.getItem('loggedinuser')
+    var firebaseConfig = {
+      apiKey: "AIzaSyAzjBcBSPRLUdfR6MmaqapEvljCxebDUCY",
+      authDomain: "restorent-41cf6.firebaseapp.com",
+      databaseURL: "https://restorent-41cf6.firebaseio.com",
+      projectId: "restorent-41cf6",
+      storageBucket: "restorent-41cf6.appspot.com",
+      messagingSenderId: "656046326453",
+      appId: "1:656046326453:web:ee655e3415eacf44f934fc"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    let formMessage=firebase.database().ref('FoodData');
+    let formMessage4=firebase.database().ref('cart');
+    formMessage.on('value',gotData,errData)
+    var sc;
+
+    function gotData(data){
+      sc=data.val();
+      var key=window.localStorage.getItem('foodpage');
+      document.getElementById("about").innerHTML+=
+      `<div class="w3-col m6 w3-padding-large">
+     <img src="`+sc[key].Image+`" id="imagepart" width="500">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center" style="color:gold" id="mainheading">`+sc[key].FoodName+`</h1><br>
+      <h5 class="w3-center" style="color:gold">It is the favorite food of south indians.</h5>
+      <p class="w3-large">`+sc[key].Description+`</p>
+      <p class="w3-large w3-text-grey w3-hide-medium">`+sc[key].Descript+`</p>
+      <button id="myBtn" class="b11" onclick=showmodel("myModal")>Add to cart</button>
+      alert(description)
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" onclick=hidemodel("myModal")>&times;</span>
+      <h2>Your Cart</h2>
+    </div>
+    <div class="modal-body">
+      <h3 style="color:black">`+sc[key].FoodName+`</h3>
+      <p>Cost              = `+sc[key].FoodPrice+`Rs/- </p>
+      <p>GST               = 10%    </p>
+      <p>Delivery charges  = 35Rs/- </p>
+      <label for="Quantity" style="color: orange">Quantity     =</label>
+      <input type="number" id="Quantity" name="Quantity">
+      <p>Total cost        =130     </p>
+    </div>
+    <div class="modal-footer">
+    <button class="b1" onclick=addCart("`+sc[key].FoodName+`","`+sc[key].FoodPrice+`","Quantity")>Confrim</button>
+    
+    </div>
+  </div>
+
+</div>`   
+    
+    }
+    function addCart(fname,price,id){
+     
+      var quantity=document.querySelector('#'+id).value
+
+      let newformMessage=formMessage4.push();
+      newformMessage.set({
+       name:fname,
+        price:price,
+        Quantity:quantity,
+        userid:key,
+        status:"Active"
+        });
+      alert("data added in cart")
+      window.location="cart.html"
+    
+    
+    }
+    function errData(){
+
+    }
+    function showmodel(id){
+      document.getElementById(id).style.display="block"
+    }
+    function hidemodel(id){
+      document.getElementById(id).style.display="none"
+    }
+   
+
+  
+  </script>
+  
+</html>
