@@ -161,7 +161,12 @@ window.onclick = function(event) {
 
     }
     function showmodel(id){
+      if(key!=null){
       document.getElementById(id).style.display="block"
+    }
+    else{
+      window.location="login.html"
+    }
     }
     function hidemodel(id){
       document.getElementById(id).style.display="none"

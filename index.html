@@ -30,7 +30,7 @@
           </li>
 
           <li><a href="#china" class="active">Services</a></li>
-          <li><a href="cart.html" class="active">View cart</a></li>
+          <li><a  class="active"id="vcart">View cart</a></li>
           <li><a href="#" class="active">Blog</a></li>
           <li><a href="#" class="active">About Us</a></li>
           <li style="display: none; " id="login"><a href="login.html" class="active">Login/Signup</a></li>
@@ -68,6 +68,7 @@
       let formMessage3=firebase.database().ref('user');
       let formMessage4=firebase.database().ref('cart');
       formMessage3.on('value',showUser);
+      vcart.addEventListener('click',showCart);
 
     
       
@@ -186,17 +187,12 @@
       
      
       }
-      function opennewpage(key){
-        if(key!=null){
-        window.localStorage.setItem('foodpage',key)
+      function opennewpage(foodkey){
+        
+        window.localStorage.setItem('foodpage',foodkey)
         window.location="product.html"
+     
       }
-      else{
-        window.location="login.html"
-      }
-      }
-
-      
       function errData(){
 
       }
@@ -213,6 +209,14 @@
       }
        function showdesc(des){
           document.getElementById(des).style.display="block"
+        }
+        function showCart(){
+        if(key!=null){
+            window.location="cart.html"
+          }
+          else{
+            window.location="login.html"
+          }
         }
         
   </script>
